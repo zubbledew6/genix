@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../style.css">
+  <title>Installation guide - Genix Wiki</title>
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand-row">
+      <div class="brand-left">
+        <a href="../index.html" class="home-link" aria-label="Home">
+          <img src="../genix.png" alt="Genix Logo" class="logo">
+        </a>
+        <div class="title-stack">
+          <h1 class="site-title">GENIX</h1>
+        </div>
+      </div>
+      </nav>
+    </div>
+  </header>
+    <nav class="sub-nav" aria-label="Secondary navigation">
+    <div class="sub-nav-inner">
+      <a href="../downloads.html">Downloads</a>
+      <a href="./wiki.html">Wiki</a>
+      <a href="../releases.html">Releases</a>
+      <a href="../bugs-fixes.html">Bugs & Fixes</a>
+      <a href="../FAQ.html">FAQ</a>
+      <a href="https://github.com/zubbledew6/genix" target="_blank" rel="noopener">Source Code</a>
+      <a href="../about.html">About</a>
+    </div>
+  </nav>
+
+  <main class="content-page">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="../index.html">Home</a>
+      <span> &gt; </span>
+      <a href="./wiki.html">Wiki</a>
+      <span> &gt; </span>
+      <span>Wiki interaction</span>
+    </nav>
+
+    <h1>Wiki contribution guide</h1>
+    <p>This document guides you with how the <strong>Genix</strong> wiki works, giving you an idea of how to contribute to it.</p>
+
+    <div class="toc-box">
+      <strong>Contents</strong>
+      <ul>
+        <li><a href="#overview">1 Overview</a></li>
+        <li><a href="#basic">2 Basic areas</a></li>
+        <li>
+          <a href="#path-1">3 Path 1: Live Media Installation</a>
+          <ul>
+            <li><a href="#prep-iso">3.1 Image Generation and Flashing</a></li>
+            <li><a href="#boot-net">3.2 Booting and Networking</a></li>
+            <li><a href="#exec-installer">3.3 Execution and Disk Modes</a></li>
+            <li><a href="#post-install">3.4 Post-Install &amp; First Rebuild</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#page">4 Making your own wikipage</a>
+        </li>
+      </ul>
+    </div>
+
+    <h2 id="overview">1. Overview</h2>
+    <p>The wiki is built to allow users to learn how to navigate and use genix and other parts, may it be specific software control, or general fixes.</p>
+
+    <h2 id="basic">2. Basic areas</h2>
+    <p>The wiki is divided into several areas, each with its own purpose and content. The main areas include: Getting started, System & configuration, Wiki interaction and Troubleshooting & reference.</p>
+    <p>Each area contains a set of pages that provide information and guidance on specific topics. The pages are organized in a logical manner, making it easy for users to find the information they need.</p>
+    <p>Users are easily able to navigate throught this, allowing a quick and easy way to interact with the wiki.</p>
+
+    <h2 id="function">3. Basic Functions</h2>
+    <p>Users are able to edit the wiki, allowing them to contribute to the content and improve the overall quality of the information available. Users can also create new pages, allowing them to add new information and resources to the wiki. The contributions are done from github pull requests</p>
+    <p>Users can also report issues and provide feedback on the wiki, allowing them to help improve the overall user experience and ensure that the information is accurate and up-to-date. These are done from github issue reports.</p>
+    <p>Now. Onto how different items in the wiki function. We will start with the noticeable cmd-blocks.</p>
+    <pre class="cmd-block"><code><span class="prompt-root">root</span> <span class="prompt-symbol">#</span> Its a me! cmd-block!!</code></pre>
+
+    <p>How these are made are by using the following HTML structure:</p>
+    <pre class="cmd-block"><code>&lt;pre class="cmd-block"&gt;&lt;code&gt;&lt;span class="prompt-root"&gt;root&lt;/span&gt; &lt;span class="prompt-symbol"&gt;#&lt;/span&gt; Your command here&lt;/code&gt;&lt;/pre&gt;</code></pre>
+    <p>Please do not use these unless necessary, as they can very fastly clog up a page. If you have a path to a softwares embedded file to show. For example  <strong>/usr/bin/bash.</strong>, much rather actually highlight them. Either by </p>
+    <strong>Example 1</strong> or <code>Example 2</code>.
+    <pre class="cmd-block">&lt;strong&gt;Example 1&lt;/strong&gt; or &lt;code&gt;Example 2&lt;/code&gt;<code></code></pre>
+
+    <h2 id="page">4. Making your own wikipage</h2>
+
+    <p>Making your own wikipage is a great step into contributing to the Genix project. It helps with the development and easens the maintaining of the wiki since there are others to also make these pages, for software and whatever else necessary.</p>
+    <p>To make your own wikipage, you can start by creating a new HTML file in the wiki directory. You can use the existing pages as a template and modify them to fit your content. Make sure to follow the same structure and styling as the other pages to maintain consistency.</p>
+    <p>You may for example copy the source code of this page. And paste it onto your own. Remember to always add into <a href="wiki.html">wiki.html</a> The new page that you create, and the link to it inside of wiki.html</p>
+    <p>Unfortunately we do not yet have a fully functioning wiki page system, resulting into manually having to write the pages inside of the source code, and having to make a pull request about it. </p>
+
+  <footer>
+    <div class="footer-content">
+      <p>© 2026 Genix. All rights reserved.</p>
+      <nav>
+        <a href="../privacy-policy.html">Privacy Policy</a>
+        <a href="https://github.com/zubbledew6/genix" target="_blank" rel="noopener">GitHub</a>
+        <a href="../system-requirements.html">System Requirements</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>
