@@ -13,7 +13,7 @@ body {
 .site-header {
   background-color: #000000;
   color: #d9edff;
-  padding: 20px 100px;
+  padding: 20px 0px;
   position: relative;
   border-bottom: 4px solid #0d1821;
   width: 100vw;
@@ -537,25 +537,3 @@ footer {
 .toc-box a:hover {
   text-decoration: underline;
 }
-
-/* Prevent brand shift from causing horizontal overflow on small screens */
-@media (max-width: 820px) {
-  .homepage-panels {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 520px) {
-  .brand-left {
-    position: static;
-    transform: none;
-  }
-
-  .panel,
-  .homepage-panels {
-    padding-left: 18px;
-    padding-right: 18px;
-  }
-}
-
-/* test #3 */
