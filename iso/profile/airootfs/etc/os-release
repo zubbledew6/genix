@@ -1,0 +1,6 @@
+NAME="Genix"
+PRETTY_NAME="Genix Live"
+ID=genix
+ID_LIKE=arch
+VERSION="live"
+HOME_URL="https://github.com/zubbledew6/genix"

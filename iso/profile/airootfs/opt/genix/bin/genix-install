@@ -1,0 +1,13 @@
+#!/bin/bash
+set -euo pipefail
+
+export PATH=/usr/local/bin:/usr/bin:/usr/sbin:/bin:/sbin
+
+if [[ -z "${GENIX_LIB:-}" && -f /opt/genix/lib/genix/installer.py ]]; then
+  export GENIX_SRC="/opt/genix"
+  export GENIX_LIB="/opt/genix/lib/genix"
+fi
+
+GENIX_LIB="${GENIX_LIB:-/usr/lib/genix}"
+export GENIX_SRC="${GENIX_SRC:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+exec python3 "${GENIX_LIB}/installer.py" "$@"

@@ -1,0 +1,2 @@
+#!/bin/sh
+exec xdg-open 'https://github.com/zubbledew6/genix/blob/main/iso/README.md'

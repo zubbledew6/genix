@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+  <title>About | Genix Linux</title>
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand-row">
+      <div class="brand-left">
+        <a href="./index.html" class="home-link" aria-label="Home">
+          <img src="genix.png" alt="Genix Logo" class="logo">
+        </a>
+        <div class="title-stack">
+          <h1 class="site-title">GENIX</h1>
+        </div>
+      </div>
+      <nav class="nav-links">
+      </nav>
+    </div>
+  </header>
+
+  <nav class="sub-nav" aria-label="Secondary navigation">
+    <div class="sub-nav-inner">
+      <a href="./downloads.html">Downloads</a>
+      <a href="./wiki/wiki.html">Wiki</a>
+      <a href="./releases.html">Releases</a>
+      <a href="./bugs-fixes.html">Bugs & Fixes</a>
+      <a href="./FAQ.html">FAQ</a>
+      <a href="https://github.com/zubbledew6/genix" target="_blank" rel="noopener">Source Code</a>
+      <a href="./about.html">About</a>
+    </div>
+  </nav>
+
+  <div class="hero-banner" aria-label="Genix promotional banner">
+    <img src="genixsiteback.png" alt="Genix banner" class="hero-image">
+  </div>
+
+  <main class="content-page">
+    <h2>About Genix</h2>
+    <p>Genix is basically Gentoo, but you can undo things. You have one config file, one command to apply it, and if something breaks, you can just roll back. You can even do it from the boot menu. It comes with OpenRC, but you can still use systemd or SysV if you want. The main idea is that your computer is yours. No account, no locked system, and no stuff hidden away from you.</p>
+
+    <h3>Simple</h3>
+    <p>Everything is in <code>/etc/genix/configuration.toml</code>. Edit the file, run the rebuild command, and Portage does the rest. Packages, USE flags, makeopts, services, and everything else are all in one place. It's just a normal text file, so you can actually see what's going on.</p>
+
+    <pre class="cmd-block"><code><span class="prompt-root">root</span> <span class="prompt-symbol">#</span> genix-rebuild switch</code></pre>
+
+    <h3>Recoverable</h3>
+    <p>Every time you switch configurations, Genix saves a generation. You can see your old generations, go back to one, or delete ones you don't need anymore. If you're using Btrfs, you can also choose an older generation from GRUB when starting your computer. So even if you mess something up, you can go back.</p>
+
+    <h3>Yours</h3>
+    <p>Underneath, it's still Gentoo. It uses Stage 3 and Portage, and packages are compiled from source by default. If you want things to be faster, you can use a binhost. You still have control over USE flags, -j, packages, and the rest of your system. Genix isn't trying to hide Gentoo from you. It's just trying to make it easier to manage.</p>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <p>© 2026 Genix. All rights reserved.</p>
+      <nav>
+              <a href="./privacy-policy.html">Privacy Policy</a>
+              <a href="https://github.com/zubbledew6/genix" target="_blank" rel="noopener">Github</a>
+              <a href="./system-requirements.html">System Requirements</a>
+              <!-- add more links here (const links that stay in the footer) -->
+          </nav>
+    </div>
+  </footer>
+</body>
+</html>
+
+

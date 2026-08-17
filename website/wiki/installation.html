@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../style.css">
+  <title>Installation guide - Genix Wiki</title>
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand-row">
+      <div class="brand-left">
+        <a href="../index.html" class="home-link" aria-label="Home">
+          <img src="../genix.png" alt="Genix Logo" class="logo">
+        </a>
+        <div class="title-stack">
+          <h1 class="site-title">GENIX</h1>
+        </div>
+      </div>
+      <nav class="nav-links">
+        <a href="../about.html">About</a>
+        <a href="../downloads.html">Downloads</a>
+        <a href="./wiki.html">Wiki</a>
+        <a href="https://github.com/zubbledew6/genix" target="_blank" rel="noopener">Source Code</a>
+        <a href="../releases.html">Releases</a>
+        <a href="../bugs-fixes.html">Bugs & Fixes</a>
+        <a href="../FAQ.html">FAQ</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="content-page">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="../index.html">Home</a>
+      <span> &gt; </span>
+      <a href="./wiki.html">Wiki</a>
+      <span> &gt; </span>
+      <span>Installation guide</span>
+    </nav>
+
+    <h1>Installation guide</h1>
+    <p>This document guides the user through installing <strong>Genix</strong>. Genix provides a declarative, rollback-capable environment built on top of Gentoo technology.</p>
+
+    <div class="toc-box">
+      <strong>Contents</strong>
+      <ul>
+        <li><a href="#overview">1 Overview &amp; Specifications</a></li>
+        <li><a href="#installation-paths">2 Selecting an Installation Method</a></li>
+        <li>
+          <a href="#path-1">3 Path 1: Live Media Installation</a>
+          <ul>
+            <li><a href="#prep-iso">3.1 Image Generation and Flashing</a></li>
+            <li><a href="#boot-net">3.2 Booting and Networking</a></li>
+            <li><a href="#exec-installer">3.3 Execution and Disk Modes</a></li>
+            <li><a href="#post-install">3.4 Post-Install &amp; First Rebuild</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#path-2">4 Path 2: Existing Gentoo / LFS Deployment</a>
+          <ul>
+            <li><a href="#bootstrap-tools">4.1 Prerequisites &amp; Tool Installation</a></li>
+            <li><a href="#initial-switch">4.2 Initial Generation Switch</a></li>
+          </ul>
+        </li>
+        <li><a href="#command-reference">5 Post-Installation Management</a></li>
+      </ul>
+    </div>
+
+    <h2 id="overview">1 Overview &amp; Specifications</h2>
+    <p>The standard Genix environment consists of the following foundational layers:</p>
+    <ul>
+      <li><strong>Base Environment:</strong> Gentoo Stage 3 (amd64)</li>
+      <li><strong>Init System:</strong> OpenRC</li>
+      <li><strong>Layout:</strong> Btrfs root filesystem utilizing subvolume <code>@</code></li>
+      <li><strong>Bootloader:</strong> GRUB</li>
+      <li><strong>Package Management:</strong> Portage (configured for binary-first or source compilation)</li>
+    </ul>
+
+    <h2 id="installation-paths">2 Selecting an Installation Method</h2>
+    <p>Genix offers two distinct installation mechanisms:</p>
+    <ol>
+      <li><strong>Live USB:</strong> Recommended for target hardware without an existing OS. The live environment downloads a clean Stage 3 and builds the target environment on-disk.</li>
+      <li><strong>Existing System:</strong> Deploys the Genix tooling directly onto a pre-existing Gentoo or LFS installation with Portage.</li>
+    </ol>
+
+    <h2 id="path-1">3 Path 1: Live Media Installation</h2>
+
+    <h3 id="prep-iso">3.1 Image Generation and Flashing</h3>
+    <p>To compile the installation image, execute the build procedure on a machine with <code>gcc</code>, <code>make</code>, root access, and repository access:</p>
+
+    <pre class="cmd-block"><code><span class="prompt-root">root</span> <span class="prompt-symbol">#</span> git clone https://github.com/zubbledew6/genix.git
+<span class="prompt-root">root</span> <span class="prompt-symbol">#</span> cd genix
+<span class="prompt-root">root</span> <span class="prompt-symbol">#</span> ./iso/build.sh</code></pre>
+
+    <p>Identify your destination USB drive via <code>lsblk</code>, then write the output image located at <code>iso/out/genix-live.iso</code>:</p>
+
+    <pre class="cmd-block"><code><span class="prompt-root">root</span> <span class="prompt-symbol">#</span> dd if=iso/out/genix-live.iso of=/dev/sdX bs=4M status=progress conv=fsync</code></pre>
+
+    <h3 id="boot-net">3.2 Booting and Networking</h3>
+    <p>Boot the target system using the live media. The installation script requires active Internet connectivity to retrieve stage files and Portage packages. For wireless links, use <code>iwctl</code>:</p>
+
+    <pre class="cmd-block"><code><span class="prompt-root">root</span> <span class="prompt-symbol">#</span> iwctl station wlan0 scan
+<span class="prompt-root">root</span> <span class="prompt-symbol">#</span> iwctl station wlan0 get-networks
+<span class="prompt-root">root</span> <span class="prompt-symbol">#</span> iwctl station wlan0 connect "SSID"</code></pre>
+
+    <h3 id="exec-installer">3.3 Execution and Disk Modes</h3>
+    <p>Validate the deployment plan prior to writing changes, then run the installer:</p>
+
+    <pre class="cmd-block"><code><span class="prompt-root">root</span> <span class="prompt-symbol">#</span> genix-install --dry-run
+<span class="prompt-root">root</span> <span class="prompt-symbol">#</span> genix-install</code></pre>
+
+    <p>Choose from three filesystem operational modes:</p>
+    <ul>
+      <li><code>sys</code>: Clears the target device, constructing a fresh GPT, EFI System Partition, and Btrfs filesystem.</li>
+      <li><code>alongside</code>: Preserves existing operating systems, provisioning Genix inside available unallocated space.</li>
+      <li><code>cfdisk</code>: Launches a manual partitioning utility for custom layouts.</li>
+    </ul>
+
+    <h3 id="post-install">3.4 Post-Install &amp; First Rebuild</h3>
+    <p>After finishing installation and rebooting into the new system, confirm system health and initialize configuration management:</p>
+
+    <pre class="cmd-block"><code><span class="prompt-root">root</span> <span class="prompt-symbol">#</span> genix-rebuild doctor
+<span class="prompt-root">root</span> <span class="prompt-symbol">#</span> nano /etc/genix/configuration.toml
+<span class="prompt-root">root</span> <span class="prompt-symbol">#</span> genix-rebuild switch --dry-run
+<span class="prompt-root">root</span> <span class="prompt-symbol">#</span> genix-rebuild switch</code></pre>
+
+    <h2 id="path-2">4 Path 2: Existing Gentoo / LFS Deployment</h2>
+
+    <h3 id="bootstrap-tools">4.1 Prerequisites &amp; Tool Installation</h3>
+    <p>Ensure Python 3.11+, GCC, Btrfs, and GRUB are present on the host system. Transfer and run the setup script:</p>
+
+    <pre class="cmd-block"><code><span class="prompt-root">root</span> <span class="prompt-symbol">#</span> cd /tmp/genix
+<span class="prompt-root">root</span> <span class="prompt-symbol">#</span> ./install.sh</code></pre>
+
+    <h2 id="command-reference">5 Post-Installation Management</h2>
+    <p>Use the core administration utility <code>genix-rebuild</code> to manage system states:</p>
+    <ul>
+      <li><code>genix-rebuild doctor</code>: Inspects environment integrity.</li>
+      <li><code>genix-rebuild list</code>: Enumerates past system generations.</li>
+      <li><code>genix-rebuild switch</code>: Applies settings defined in <code>/etc/genix/configuration.toml</code>.</li>
+      <li><code>genix-rebuild rollback N</code>: Reverts system state directly to generation <em>N</em>.</li>
+    </ul>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <p>© 2026 Genix. All rights reserved.</p>
+      <nav>
+        <a href="../privacy-policy.html">Privacy Policy</a>
+        <a href="https://github.com/zubbledew6/genix" target="_blank" rel="noopener">GitHub</a>
+        <a href="../system-requirements.html">System Requirements</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,78 @@
+# Daily-driver starter — merge into /etc/genix/configuration.toml or copy wholesale.
+# See docs/DAILY-DRIVER.md for the layer-by-layer plan.
+
+[system]
+hostname = "genix"
+use = ["-systemd", "openssl"]
+
+[system.identity]
+name = "Genix"
+pretty_name = "Genix"
+id = "genix"
+id_like = "gentoo"
+version = "0.1"
+version_id = "0.1"
+
+[system.portage]
+accept_keywords = "amd64"
+makeopts = "-j8"
+features = "parallel-fetch"
+lfs = true
+
+[system.provided]
+packages = [
+  "sys-libs/glibc",
+  "sys-devel/gcc",
+  "sys-devel/binutils",
+  "sys-kernel/linux-headers",
+  "sys-apps/bash",
+  "sys-apps/coreutils",
+  "sys-devel/make",
+  "sys-libs/gmp",
+  "sys-libs/mpfr",
+  "sys-libs/mpc",
+  "sys-libs/zlib",
+  "sys-libs/ncurses",
+  "sys-libs/readline",
+  "sys-libs/libffi",
+  "sys-libs/openssl",
+  "sys-devel/gettext",
+  "sys-devel/patch",
+  "sys-apps/diffutils",
+  "sys-apps/file",
+  "sys-apps/findutils",
+  "sys-apps/gawk",
+  "sys-apps/grep",
+  "sys-apps/sed",
+  "sys-apps/tar",
+  "sys-apps/xz",
+  "sys-apps/bzip2",
+  "sys-apps/gzip",
+  "sys-apps/which",
+  "sys-process/procps",
+  "sys-apps/util-linux",
+  "dev-lang/python",
+  "dev-lang/perl",
+]
+
+[packages]
+want = [
+  "app-editors/vim",
+  "sys-process/htop",
+  "games-misc/cowsay",
+  "games-misc/nyancat",
+  "app-misc/cmatrix",
+  "app-misc/fastfetch",
+  "app-misc/tmux",
+]
+
+[packages.use]
+
+[services]
+enable = ["sshd", "local"]
+
+# [system.boot]
+# enabled = true
+# backend = "grub"
+# subvol_prefix = "@genix-"
+# default_subvol = "@"

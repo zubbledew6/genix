@@ -1,0 +1,6 @@
+#!/bin/bash
+set -euo pipefail
+export PATH="/opt/genix/bin:/usr/local/bin:/usr/bin:/usr/sbin:/bin:/sbin"
+export GENIX_SRC="/opt/genix"
+export GENIX_LIB="/opt/genix/lib/genix"
+exec python3 /opt/genix/lib/genix/installer.py "$@"

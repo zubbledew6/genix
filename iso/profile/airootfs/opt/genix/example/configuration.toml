@@ -1,0 +1,56 @@
+[system]
+hostname = "genix"
+use = ["-systemd", "elogind"]
+
+[system.identity]
+name = "Genix"
+pretty_name = "Genix"
+id = "genix"
+id_like = "gentoo"
+version = "0.1"
+version_id = "0.1"
+
+[system.portage]
+accept_keywords = "amd64"
+makeopts = "-j8"
+features = "parallel-fetch"
+binhost = "https://distfiles.gentoo.org/releases/amd64/binpackages/23.0/x86-64"
+binary = false
+lfs = false
+
+# Passed through to make.conf verbatim, in this order.
+[system.portage.vars]
+COMMON_FLAGS = "-O2 -pipe"
+CFLAGS = "${COMMON_FLAGS}"
+CXXFLAGS = "${COMMON_FLAGS}"
+CHOST = "x86_64-pc-linux-gnu"
+GRUB_PLATFORMS = "efi-64 pc"
+ACCEPT_LICENSE = "* -@EULA"
+
+[packages]
+want = [
+  "app-admin/sudo",
+  "app-editors/nano",
+  "app-editors/vim",
+  "net-misc/dhcpcd",
+  "net-misc/openssh",
+  "net-wireless/iwd",
+  "sys-boot/efibootmgr",
+  "sys-boot/grub",
+  "sys-fs/btrfs-progs",
+  "sys-kernel/dracut",
+  "sys-kernel/gentoo-kernel-bin",
+  "sys-kernel/linux-firmware",
+]
+
+[packages.use]
+"sys-kernel/installkernel" = ["dracut"]
+
+[services]
+enable = ["iwd", "dhcpcd", "sshd"]
+
+[system.boot]
+enabled = true
+backend = "grub"
+subvol_prefix = "@genix-"
+default_subvol = "@"

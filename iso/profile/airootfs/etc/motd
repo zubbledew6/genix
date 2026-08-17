@@ -1,0 +1,12 @@
+
+  Genix live — boot on TARGET laptop only
+  ───────────────────────────────────────
+  Installs Gentoo + OpenRC + Genix. Needs network.
+
+  WiFi:    iwctl station wlan0 connect "SSID"
+  Plan:    genix-install --dry-run
+  Install: genix-install
+
+  The installer can erase the whole disk, install into
+  free space next to Windows, or hand you cfdisk.
+
