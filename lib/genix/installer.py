@@ -120,7 +120,7 @@ def list_disks():
     busy = busy_disks()
     for p in sorted(block.iterdir()):
         name = p.name
-        if not (name.startswith("sd") or name.startswith("nvme") or name.startswith("vd")):
+        if not (name.startswith("sd") or name.startswith("nvme") or name.startswith("vd") or name.startswith("mmcblk")):
             continue
         if name.endswith(("boot", "rpmb")):
             continue
