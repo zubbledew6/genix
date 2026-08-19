@@ -1,7 +1,14 @@
 # Genix — C toolchain (render + rebuild). The live installer stays Python.
 CC      ?= gcc
-CFLAGS  ?= -std=c11 -O2 -Wall -Wextra -Wno-format-truncation -D_GNU_SOURCE
 LDFLAGS ?=
+
+# Ignore the host's CFLAGS. CachyOS (and similar) often export -march=native
+# or x86-64-v3; glibc then refuses to run the binary on older chips
+# (Celeron N4500, etc) with "CPU ISA level is lower than required".
+# v2 is SSE4.2 — Jasper Lake / most laptops from ~2011 on.
+# For this machine only: make MARCH=native
+MARCH   ?= x86-64-v2
+override CFLAGS := -std=c11 -O2 -Wall -Wextra -Wno-format-truncation -D_GNU_SOURCE -march=$(MARCH) $(EXTRA_CFLAGS)
 
 SRC     := src
 BUILD   := build

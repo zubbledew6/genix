@@ -8,10 +8,11 @@ fi
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-if [[ ! -x "${ROOT}/build/genix-rebuild" || ! -x "${ROOT}/build/genix-render" ]]; then
-  echo "building genix..."
-  make -C "${ROOT}"
-fi
+# Always rebuild. A copied build/ from a newer CPU (CachyOS -march=native)
+# dies here with "CPU ISA level is lower than required".
+echo "building genix..."
+make -C "${ROOT}" clean
+make -C "${ROOT}"
 
 install -d /usr/lib/genix /usr/bin /etc/genix /var/lib/genix/generations
 install -m755 "${ROOT}/build/genix-render" /usr/bin/genix-render

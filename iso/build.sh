@@ -28,7 +28,8 @@ if ((${#MISSING[@]})); then
   pacman -Sy --needed --noconfirm "${MISSING[@]}"
 fi
 
-echo "building genix binaries..."
+echo "building genix binaries (x86-64-v2, ignores host CFLAGS)..."
+make -C "${ROOT}" clean
 make -C "${ROOT}"
 
 echo "building profile from archiso releng + genix overlay..."
@@ -250,6 +251,11 @@ if [[ -f "${SFS}" ]]; then
   done
 fi
 
+sha256sum "${ISO}" | tee "${ISO}.sha256" >/dev/null
+
 echo ""
 echo "DONE: ${ISO}"
 ls -lh "${ISO}" "${OUT}/genix-live.iso"
+echo ""
+echo "SHA256: $(awk '{print $1}' "${ISO}.sha256")"
+echo "GitHub release: ./scripts/release-iso.sh --dry-run"
