@@ -47,13 +47,16 @@
     <div class="toc-box">
       <strong>Contents</strong>
       <ul>
-        <li><a href="#overview">1 Overview</a></li>
+  <li><a href="#overview">1 Overview</a></li>
         <li><a href="#basic">2 Basic areas</a></li>
         <li>
           <a href="#function">3 Basic Functions</a>
+          <ul>
+            <li><a href="#cmd-blocks">3.1 Cmd Blocks</a></li>
+            <li><a href="#content-blocks">3.2 Content Blocks</a></li>
+          </ul>
         </li>
-        <li>
-          <a href="#page">4 Making your own wikipage</a>
+        <li><a href="#page">4 Making your own wikipage</a></li>
         </li>
       </ul>
     </div>
@@ -69,14 +72,24 @@
     <h2 id="function">3. Basic Functions</h2>
     <p>Users are able to edit the wiki, allowing them to contribute to the content and improve the overall quality of the information available. Users can also create new pages, allowing them to add new information and resources to the wiki. The contributions are done from github pull requests</p>
     <p>Users can also report issues and provide feedback on the wiki, allowing them to help improve the overall user experience and ensure that the information is accurate and up-to-date. These are done from github issue reports.</p>
+    
+    <h2 id="cmd-blocks">3.1 Cmd Blocks</h2>
     <p>Now. Onto how different items in the wiki function. We will start with the noticeable cmd-blocks.</p>
     <pre class="cmd-block"><code><span class="prompt-root">root</span> <span class="prompt-symbol">#</span> Its a me! cmd-block!!</code></pre>
-
+    <p>Cmd-blocks are used to display commands that can be run in a terminal. They are used to show users how to perform certain actions or tasks, and can be very useful for providing step-by-step instructions.</p>
     <p>How these are made are by using the following HTML structure:</p>
     <pre class="cmd-block"><code>&lt;pre class="cmd-block"&gt;&lt;code&gt;&lt;span class="prompt-root"&gt;root&lt;/span&gt; &lt;span class="prompt-symbol"&gt;#&lt;/span&gt; Your command here&lt;/code&gt;&lt;/pre&gt;</code></pre>
     <p>Please do not use these unless necessary, as they can very fastly clog up a page. If you have a path to a softwares embedded file to show. For example  <strong>/usr/bin/bash.</strong>, much rather actually highlight them. Either by </p>
     <strong>Example 1</strong> or <code>Example 2</code>.
     <pre class="cmd-block">&lt;strong&gt;Example 1&lt;/strong&gt; or &lt;code&gt;Example 2&lt;/code&gt;<code></code></pre>
+
+    <h2 id="content-blocks">3.2 Content Blocks</h2>
+
+    <p>Content blocks are also similar to cmd-blocks, but they are used to display content and links to certain areas of a wikipage instead of commands.</p>
+    <p>They can be made by the following HTML structure:</p>
+    <pre class="cmd-block"><code>&lt;div class="toc-box"&gt;&lt;strong&gt;Contents&lt;/strong&gt;&lt;ul&gt;&lt;li&gt;&lt;a href="#link-to-your-section"&gt;1 what-your-section-is-called&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="#basic"&gt;2 Basic areas&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="#function"&gt;3 Basic Functions&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="#page"&gt;4 Making your own wikipage&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;</code></pre>
+    <p>Always remember to update the table of contents when adding new sections. The links to sections are made by</p>
+    <pre class="cmd-block"><code>&lt;h2 id="link-to-your-section"&gt;1. what-your-section-is-called&lt;/h2&gt;</code></pre>
 
     <h2 id="page">4. Making your own wikipage</h2>
 
