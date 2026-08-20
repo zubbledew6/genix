@@ -51,6 +51,12 @@ want = [
 [packages.use]
 "sys-kernel/installkernel" = ["dracut"]
 
+# per-package autounmask -> /etc/portage/package.accept_keywords
+# list, string, or bare "" (accept ~arch of the current arch)
+[packages.keywords]
+# "app-editors/vim" = ["~amd64"]
+# "=dev-lang/rust-1.80.0" = "~amd64"
+
 [services]
 enable = ["iwd", "dhcpcd", "sshd"]
 

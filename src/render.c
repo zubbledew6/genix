@@ -446,6 +446,49 @@ render_config(const char *config_path, const char *output_dir, Manifest *out)
 	}
 
 	{
+		Toml *kw = toml_get(cfg, "packages.keywords");
+		char *f = strf("%s/package.accept_keywords", path);
+		if (kw && kw->type == TOML_TABLE && kw->n) {
+			char *body = xstrdup("");
+			size_t bn = 0, bcap = 0;
+			/* sort atoms so diffs aren't noisy */
+			int *idx = xmalloc(sizeof(int) * kw->n);
+			for (i = 0; i < kw->n; i++)
+				idx[i] = i;
+			for (i = 0; i < kw->n; i++) {
+				int j;
+				for (j = i + 1; j < kw->n; j++) {
+					if (strcmp(kw->keys[idx[j]], kw->keys[idx[i]]) < 0) {
+						int tmp = idx[i];
+						idx[i] = idx[j];
+						idx[j] = tmp;
+					}
+				}
+			}
+			for (i = 0; i < kw->n; i++) {
+				Toml *flags = kw->vals[idx[i]];
+				char *line;
+				if (flags->type == TOML_ARRAY) {
+					char *joined = join_use(flags);
+					line = strf("%s %s", kw->keys[idx[i]], joined);
+					free(joined);
+				} else if (flags->type == TOML_STR)
+					line = strf("%s %s", kw->keys[idx[i]], flags->str);
+				else
+					line = strf("%s", kw->keys[idx[i]]);
+				append_line(&body, &bn, &bcap, line);
+				free(line);
+			}
+			write_file(f, body, 0644, 0);
+			free(body);
+			free(idx);
+		} else if (exists(f)) {
+			unlink(f);
+		}
+		free(f);
+	}
+
+	{
 		char *f = strf("%s/package.provided", path);
 		if (out->provided.n) {
 			char *body = xstrdup("");
