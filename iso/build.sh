@@ -231,7 +231,9 @@ BUILD_START="$(date +%s)"
 echo "mkarchiso (10-30 min; every run is a full rebuild)..."
 mkarchiso -v -w "${WORK}" -o "${OUT}" "${PROFILE}"
 
+set +o pipefail
 ISO="$(find "${OUT}" -maxdepth 1 -name '*.iso' ! -name 'genix-live.iso' -printf '%T@ %p\n' 2>/dev/null | sort -rn | head -1 | cut -d' ' -f2-)"
+set -o pipefail
 if [[ -z "${ISO}" || ! -f "${ISO}" ]]; then
   echo "mkarchiso did not produce an iso in ${OUT}" >&2
   exit 1
