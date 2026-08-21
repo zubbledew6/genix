@@ -2,7 +2,7 @@
 
 gentoo, but one toml file and you can roll back.
 
-site (placeholder): https://genix.hoi-hoi33666.workers.dev/  
+site: https://genixos.org/  
 repo: https://github.com/zubbledew6/genix
 
 ```
