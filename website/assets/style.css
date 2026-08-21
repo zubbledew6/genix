@@ -537,3 +537,24 @@ footer {
 .toc-box a:hover {
   text-decoration: underline;
 }
+
+
+.news-panel {
+  color: #e0e6ed;
+}
+
+.news-panel p {
+  color: #c5d1de;
+  margin-bottom: 1.5rem;
+}
+
+
+.news-button {
+  display: inline-block;
+  background: #5865f2;
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 700;
+  padding: 10px 16px;
+  border-radius: 8px;
+}
