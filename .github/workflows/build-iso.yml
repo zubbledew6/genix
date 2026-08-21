@@ -1,0 +1,36 @@
+name: build iso
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: build-iso
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: archlinux:latest
+      options: --privileged
+
+    steps:
+      - name: install deps
+        run: |
+          pacman -Syu --noconfirm --needed archiso git base-devel sudo
+
+      - name: checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: build iso
+        run: |
+          sudo ./iso/build.sh
+
+      - name: upload iso
+        uses: actions/upload-artifact@v4
+        with:
+          name: genix-live
+          path: iso/out/*.iso
+          if-no-files-found: error
