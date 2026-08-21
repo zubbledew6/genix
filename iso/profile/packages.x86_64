@@ -37,6 +37,7 @@ gpm
 gptfdisk
 grml-zsh-config
 grub
+gcc
 hdparm
 hyperv
 intel-ucode
@@ -71,6 +72,7 @@ mkinitcpio-nfs-utils
 mmc-utils
 modemmanager
 mtools
+make
 nano
 nbd
 ndisc6
