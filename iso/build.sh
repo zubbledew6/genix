@@ -123,6 +123,8 @@ wget
 curl
 iwd
 wpa_supplicant
+gcc
+make
 EOF
 
 # Genix repo on live image
