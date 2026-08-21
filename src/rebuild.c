@@ -12,7 +12,7 @@
 #include <unistd.h>
 
 static const char *portage_files[] = {
-	"make.conf", "package.use", "package.world", "package.provided", NULL
+	"make.conf", "package.use", "package.accept_keywords", "package.world", "package.provided", NULL
 };
 
 static int
