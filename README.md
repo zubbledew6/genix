@@ -72,7 +72,7 @@ use = ["-systemd", "elogind"]
 name = "Genix"
 id = "genix"
 id_like = "gentoo"
-home_url = "https://genix.hoi-hoi33666.workers.dev/"
+home_url = "https://genixos.org/"
 logo = "genix"
 
 [system.portage]
