@@ -246,6 +246,7 @@ ln -sf "$(basename "${ISO}")" "${OUT}/genix-live.iso"
 
 SFS="${WORK}/iso/genix/x86_64/airootfs.sfs"
 if [[ -f "${SFS}" ]]; then
+  set +o pipefail
   for f in usr/local/bin/genix-install usr/bin/genix-install usr/bin/genix-rebuild usr/bin/genix-render opt/genix/install.sh; do
     MODE="$(unsquashfs -ll "${SFS}" 2>/dev/null | awk -v f="$f" 'index($NF, f) {print $1; exit}')"
     if [[ "${MODE}" != *x* ]]; then
@@ -253,8 +254,8 @@ if [[ -f "${SFS}" ]]; then
       exit 1
     fi
   done
+  set -o pipefail
 fi
-
 sha256sum "${ISO}" | tee "${ISO}.sha256" >/dev/null
 
 echo ""
