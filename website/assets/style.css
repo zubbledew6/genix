@@ -278,6 +278,67 @@ body {
   padding-left: 1.25rem;
 }
 
+.iso-dropdown {
+  background: #121212;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+
+.iso-dropdown summary {
+  padding: 14px 18px;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #ffffff;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+}
+
+.iso-dropdown summary::-webkit-details-marker {
+  display: none;
+}
+
+.iso-dropdown summary::after {
+  content: "►";
+  font-size: 0.8rem;
+  color: #7cc2ff;
+  transition: transform 0.2s ease;
+}
+
+.iso-dropdown[open] summary::after {
+  transform: rotate(90deg);
+}
+
+.iso-dropdown summary:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.iso-dropdown .page-list {
+  margin: 0;
+  padding: 12px 18px 18px 36px;
+  border-top: 1px solid #2a2a2a;
+  background: #0a0a0a;
+}
+
+.iso-dropdown .page-list li {
+  margin-bottom: 8px;
+}
+
+.iso-dropdown .page-list a {
+  color: #7cc2ff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.iso-dropdown .page-list a:hover {
+  text-decoration: underline;
+}
+
 
 .iso-card {
   max-width: 900px;
@@ -364,6 +425,7 @@ footer a:hover {
   text-decoration: underline;
   color: #ffffff;
 }
+
 
 
 .content-page h3 {
