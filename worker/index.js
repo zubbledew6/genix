@@ -30,6 +30,7 @@ function b64url(bytes) {
   for (const b of bytes) s += String.fromCharCode(b);
   return btoa(s).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 }
+
 function b64urlDecode(str) {
   const pad = str.length % 4 === 0 ? "" : "=".repeat(4 - (str.length % 4));
   const s = atob(str.replace(/-/g, "+").replace(/_/g, "/") + pad);
@@ -46,6 +47,7 @@ function constantTimeEqualsStr(a, b) {
   for (let i = 0; i < x.length; i++) diff |= x[i] ^ y[i];
   return diff === 0;
 }
+
 function constantTimeEqualsBytes(a, b) {
   if (a.length !== b.length) return false;
   let diff = 0;
@@ -117,7 +119,10 @@ async function writeItems(env, items) {
 }
 
 async function notifyDiscord(env, item) {
-  if (!env.DISCORD_WEBHOOK_URL) return;
+  if (!env.DISCORD_WEBHOOK_URL) {
+    console.warn("DISCORD_WEBHOOK_URL environment secret is missing.");
+    return;
+  }
 
   const embed = {
     title: (item.title || "New Update").slice(0, 256),
@@ -134,7 +139,7 @@ async function notifyDiscord(env, item) {
     embed.fields = [{ name: "Category", value: String(item.category).slice(0, 256), inline: true }];
   }
 
-  if (item.imageUrl) {
+  if (item.imageUrl && /^https?:\/\//i.test(item.imageUrl)) {
     embed.image = { url: item.imageUrl };
   }
 
@@ -213,7 +218,8 @@ export default {
     }
     try {
       return await handle(req, env);
-    } catch {
+    } catch (err) {
+      console.error("Worker Execution Error:", err);
       return empty(500);
     }
   },
