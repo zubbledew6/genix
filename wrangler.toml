@@ -1,6 +1,12 @@
 name = "genix"
-compatibility_date = "2024-01-01"
+main = "worker/index.js"
+compatibility_date = "2024-09-23"
 workers_dev = true
 
 [assets]
 directory = "./website"
+binding = "ASSETS"
+
+[[kv_namespaces]]
+binding = "NEWS_KV"
+id = "705f6470ae724d7db377e3c019271ba3"
