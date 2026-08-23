@@ -118,23 +118,41 @@ async function writeItems(env, items) {
 
 async function notifyDiscord(env, item) {
   if (!env.DISCORD_WEBHOOK_URL) return;
+
   const embed = {
-    title: item.title.slice(0, 256),
-    description: item.body.slice(0, 4000),
+    title: (item.title || "New Update").slice(0, 256),
+    description: (item.body || "").slice(0, 4000),
     color: 7002098,
-    timestamp: item.createdAt,
-    author: { name: item.author.slice(0, 256) },
+    timestamp: item.createdAt || new Date().toISOString(),
   };
-  if (item.category) embed.fields = [{ name: "Category", value: item.category, inline: true }];
-  if (item.imageUrl) embed.image = { url: item.imageUrl };
+
+  if (item.author) {
+    embed.author = { name: String(item.author).slice(0, 256) };
+  }
+
+  if (item.category) {
+    embed.fields = [{ name: "Category", value: String(item.category).slice(0, 256), inline: true }];
+  }
+
+  if (item.imageUrl) {
+    embed.image = { url: item.imageUrl };
+  }
+
   const payload = { username: "Genix News", embeds: [embed] };
+
   try {
-    await fetch(env.DISCORD_WEBHOOK_URL, {
+    const res = await fetch(env.DISCORD_WEBHOOK_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
-  } catch {}
+
+    if (!res.ok) {
+      console.error("Discord Webhook Error:", res.status, await res.text());
+    }
+  } catch (err) {
+    console.error("Discord Fetch Failed:", err);
+  }
 }
 
 function uuid() {
