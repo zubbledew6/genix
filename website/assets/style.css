@@ -370,6 +370,17 @@ body {
   align-items: center;
 }
 
+.news-image {
+  max-width: 100%;
+  max-height: 400px;
+  width: auto;
+  height: auto;
+  object-fit: cover;
+  border-radius: 8px;
+  margin: 1rem 0;
+  display: block;
+}
+
 .download-button {
   background: #1e90ff;
   color: #fff;
