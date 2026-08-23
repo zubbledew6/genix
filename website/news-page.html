@@ -82,19 +82,28 @@
     };
 
     const renderItem = (item) => {
-      const cat = item.category ? `<span class="news-tag">${escapeHtml(item.category)}</span>` : "";
+      const metaParts = [];
+
+      if (item.category) {
+        metaParts.push(`<span class="news-tag">${escapeHtml(item.category)}</span>`);
+      }
+      if (item.author) {
+        metaParts.push(`<span class="news-author">by ${escapeHtml(item.author)}</span>`);
+      }
+      if (item.createdAt) {
+        metaParts.push(`<time datetime="${escapeHtml(item.createdAt)}">${escapeHtml(formatDate(item.createdAt))}</time>`);
+      }
+
+      const metaHtml = metaParts.join(' <span class="meta-separator">•</span> ');
       const img = item.imageUrl
         ? `<img class="news-image" src="${escapeHtml(item.imageUrl)}" alt="">`
         : "";
-      const author = item.author ? `<span class="news-author">by ${escapeHtml(item.author)}</span>` : "";
-      const time = item.createdAt
-        ? `<time datetime="${escapeHtml(item.createdAt)}">${escapeHtml(formatDate(item.createdAt))}</time>`
-        : "";
+
       return `
         <article class="news-item">
           <header class="news-item-head">
             <h3>${escapeHtml(item.title)}</h3>
-            <div class="news-meta">${cat}${author}${time}</div>
+            <div class="news-meta">${metaHtml}</div>
           </header>
           ${img}
           <div class="news-body">${paragraphs(item.body)}</div>
