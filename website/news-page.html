@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+  <title>News | Genix Linux</title>
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand-row">
+      <div class="brand-left">
+        <a href="./index.html" class="home-link" aria-label="Home">
+          <img src="genix.png" alt="Genix Logo" class="logo">
+        </a>
+        <div class="title-stack">
+          <h1 class="site-title">GENIX</h1>
+        </div>
+      </div>
+      <nav class="nav-links">
+        <a href="./about.html">About</a>
+        <a href="./downloads.html">Downloads</a>
+        <a href="./wiki.html">Wiki</a>
+        <a href="https://github.com/zubbledew6/genix" target="_blank" rel="noopener">Source Code</a>
+        <a href="./releases.html">Releases</a>
+        <a href="./news-page.html">News</a>
+        <a href="./bugs-fixes.html">Bugs & Fixes</a>
+        <a href="./FAQ.html">FAQ</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="content-page">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <div class="you-are-here">You are here!</div>
+      <a href="./index.html">Home</a>
+      <span> &gt; </span>
+      <span>News</span>
+    </nav>
+
+    <section class="news">
+      <h2>News</h2>
+      <p>Updates, announcements and notes from the Genix project.</p>
+
+      <div id="news-status" class="news-status" role="status" aria-live="polite">Loading…</div>
+      <div id="news-list" class="news-list"></div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <p>© 2026 Genix. All rights reserved.</p>
+      <nav>
+        <a href="./privacy-policy.html">Privacy Policy</a>
+        <a href="https://github.com/zubbledew6/genix" target="_blank" rel="noopener">Github</a>
+        <a href="./system-requirements.html">System Requirements</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    const NEWS_API = (window.NEWS_API_BASE ?? "") + "/api/news";
+
+    const escapeHtml = (s) => String(s ?? "").replace(/[&<>"']/g, c => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;"
+    }[c]));
+
+    const paragraphs = (text) => escapeHtml(text)
+      .split(/\n{2,}/)
+      .map(p => "<p>" + p.replace(/\n/g, "<br>") + "</p>")
+      .join("");
+
+    const formatDate = (iso) => {
+      const d = new Date(iso);
+      if (isNaN(d)) return "";
+      return d.toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" });
+    };
+
+    const renderItem = (item) => {
+      const cat = item.category ? `<span class="news-tag">${escapeHtml(item.category)}</span>` : "";
+      const img = item.imageUrl
+        ? `<img class="news-image" src="${escapeHtml(item.imageUrl)}" alt="">`
+        : "";
+      const author = item.author ? `<span class="news-author">by ${escapeHtml(item.author)}</span>` : "";
+      const time = item.createdAt
+        ? `<time datetime="${escapeHtml(item.createdAt)}">${escapeHtml(formatDate(item.createdAt))}</time>`
+        : "";
+      return `
+        <article class="news-item">
+          <header class="news-item-head">
+            <h3>${escapeHtml(item.title)}</h3>
+            <div class="news-meta">${cat}${author}${time}</div>
+          </header>
+          ${img}
+          <div class="news-body">${paragraphs(item.body)}</div>
+        </article>
+      `;
+    };
+
+    async function loadNews() {
+      const status = document.getElementById("news-status");
+      const list = document.getElementById("news-list");
+      try {
+        const res = await fetch(NEWS_API, { cache: "no-store" });
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        const data = await res.json();
+        const items = Array.isArray(data.items) ? data.items : [];
+        if (items.length === 0) {
+          status.textContent = "No news yet. Check back soon.";
+          list.innerHTML = "";
+          return;
+        }
+        status.textContent = "";
+        list.innerHTML = items.map(renderItem).join("");
+      } catch (err) {
+        status.textContent = "News is currently unavailable.";
+        list.innerHTML = "";
+      }
+    }
+
+    loadNews();
+  </script>
+</body>
+</html>

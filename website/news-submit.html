@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+  <title>Submit News | Genix Linux</title>
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand-row">
+      <div class="brand-left">
+        <a href="./index.html" class="home-link" aria-label="Home">
+          <img src="genix.png" alt="Genix Logo" class="logo">
+        </a>
+        <div class="title-stack">
+          <h1 class="site-title">GENIX</h1>
+        </div>
+      </div>
+      <nav class="nav-links">
+        <a href="./about.html">About</a>
+        <a href="./downloads.html">Downloads</a>
+        <a href="./wiki.html">Wiki</a>
+        <a href="https://github.com/zubbledew6/genix" target="_blank" rel="noopener">Source Code</a>
+        <a href="./releases.html">Releases</a>
+        <a href="./news-page.html">News</a>
+        <a href="./bugs-fixes.html">Bugs & Fixes</a>
+        <a href="./FAQ.html">FAQ</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="content-page">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <div class="you-are-here">You are here!</div>
+      <a href="./index.html">Home</a>
+      <span> &gt; </span>
+      <a href="./news-page.html">News</a>
+      <span> &gt; </span>
+      <span>Submit</span>
+    </nav>
+
+    <section id="gate" class="submit-panel">
+      <h2>Enter access code</h2>
+      <p>Submitting news is restricted. Enter your access code to continue.</p>
+
+      <form id="gate-form" class="submit-form" autocomplete="off">
+        <label for="access-code">Access code</label>
+        <input id="access-code" name="code" type="password" required autocomplete="off">
+        <button type="submit">Continue</button>
+        <div id="gate-error" class="form-error" role="alert"></div>
+      </form>
+    </section>
+
+    <section id="composer" class="submit-panel" hidden>
+      <h2>Post to the news page</h2>
+      <p>This posts to the public news page and notifies the team.</p>
+
+      <form id="news-form" class="submit-form">
+        <label for="n-title">Title</label>
+        <input id="n-title" name="title" type="text" maxlength="140" required>
+
+        <label for="n-author">Author</label>
+        <input id="n-author" name="author" type="text" maxlength="60" required>
+
+        <label for="n-category">Category</label>
+        <select id="n-category" name="category">
+          <option value="">— none —</option>
+          <option value="Update">Update</option>
+          <option value="Announcement">Announcement</option>
+          <option value="Fix">Fix</option>
+          <option value="Release">Release</option>
+          <option value="Note">Note</option>
+        </select>
+
+        <label for="n-image">Image URL (optional)</label>
+        <input id="n-image" name="imageUrl" type="url" placeholder="https://…">
+
+        <label for="n-body">Body</label>
+        <textarea id="n-body" name="body" rows="8" maxlength="8000" required></textarea>
+
+        <div class="submit-actions">
+          <button type="submit">Publish</button>
+          <button type="button" id="signout">Sign out</button>
+        </div>
+        <div id="form-status" class="form-status" role="status" aria-live="polite"></div>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <p>© 2026 Genix. All rights reserved.</p>
+      <nav>
+        <a href="./privacy-policy.html">Privacy Policy</a>
+        <a href="https://github.com/zubbledew6/genix" target="_blank" rel="noopener">Github</a>
+        <a href="./system-requirements.html">System Requirements</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    const API_BASE = window.NEWS_API_BASE ?? "";
+    const TOKEN_KEY = "genix.news.token";
+
+    const gate = document.getElementById("gate");
+    const composer = document.getElementById("composer");
+    const gateForm = document.getElementById("gate-form");
+    const gateError = document.getElementById("gate-error");
+    const newsForm = document.getElementById("news-form");
+    const status = document.getElementById("form-status");
+
+    function showComposer() {
+      gate.hidden = true;
+      composer.hidden = false;
+    }
+    function showGate() {
+      composer.hidden = true;
+      gate.hidden = false;
+      document.getElementById("access-code").value = "";
+    }
+
+    function storedToken() {
+      try {
+        const raw = sessionStorage.getItem(TOKEN_KEY);
+        if (!raw) return null;
+        const t = JSON.parse(raw);
+        if (!t.token || !t.expiresAt) return null;
+        if (Date.now() >= t.expiresAt) {
+          sessionStorage.removeItem(TOKEN_KEY);
+          return null;
+        }
+        return t.token;
+      } catch { return null; }
+    }
+
+    if (storedToken()) showComposer();
+
+    gateForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      gateError.textContent = "";
+      const code = document.getElementById("access-code").value;
+      try {
+        const res = await fetch(API_BASE + "/api/auth", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ code })
+        });
+        if (res.status === 401) {
+          gateError.textContent = "Invalid code.";
+          return;
+        }
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        const data = await res.json();
+        sessionStorage.setItem(TOKEN_KEY, JSON.stringify(data));
+        showComposer();
+      } catch {
+        gateError.textContent = "Could not reach the server.";
+      }
+    });
+
+    document.getElementById("signout").addEventListener("click", () => {
+      sessionStorage.removeItem(TOKEN_KEY);
+      showGate();
+    });
+
+    newsForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      status.textContent = "";
+      const token = storedToken();
+      if (!token) { showGate(); return; }
+
+      const payload = {
+        title: document.getElementById("n-title").value.trim(),
+        author: document.getElementById("n-author").value.trim(),
+        category: document.getElementById("n-category").value || null,
+        imageUrl: document.getElementById("n-image").value.trim() || null,
+        body: document.getElementById("n-body").value.trim()
+      };
+      if (!payload.title || !payload.body || !payload.author) {
+        status.textContent = "Title, author and body are required.";
+        return;
+      }
+
+      status.textContent = "Publishing…";
+      try {
+        const res = await fetch(API_BASE + "/api/news", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+          },
+          body: JSON.stringify(payload)
+        });
+        if (res.status === 401) {
+          sessionStorage.removeItem(TOKEN_KEY);
+          showGate();
+          return;
+        }
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        newsForm.reset();
+        status.textContent = "Published.";
+      } catch {
+        status.textContent = "Failed to publish. Try again.";
+      }
+    });
+  </script>
+</body>
+</html>
