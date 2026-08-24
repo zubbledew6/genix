@@ -426,6 +426,18 @@ select {
     font-weight: 600;
 }
 
+textarea {
+    background: transparent;
+    color: #cfe8ff;
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(255,255,255,0.04);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+textarea:focus { background: rgba(255,255,255,0.02); }
+
 select:focus { background: rgba(255,255,255,0.02); }
 
 .older-isos {
