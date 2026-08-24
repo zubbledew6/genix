@@ -143,7 +143,11 @@ async function notifyDiscord(env, item) {
     embed.image = { url: item.imageUrl };
   }
 
-  const payload = { username: "Genix News", embeds: [embed] };
+  const payload = {
+    content: "<@&1541445950214635602>",
+    username: "Genix News",
+    embeds: [embed],
+  };
 
   try {
     const res = await fetch(env.DISCORD_WEBHOOK_URL, {
