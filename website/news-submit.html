@@ -19,17 +19,26 @@
         </div>
       </div>
       <nav class="nav-links">
-        <a href="./about.html">About</a>
-        <a href="./downloads.html">Downloads</a>
-        <a href="./wiki.html">Wiki</a>
-        <a href="https://github.com/zubbledew6/genix" target="_blank" rel="noopener">Source Code</a>
-        <a href="./releases.html">Releases</a>
-        <a href="./news-page.html">News</a>
-        <a href="./bugs-fixes.html">Bugs & Fixes</a>
-        <a href="./FAQ.html">FAQ</a>
       </nav>
     </div>
   </header>
+
+  <nav class="sub-nav" aria-label="Secondary navigation">
+    <div class="sub-nav-inner">
+      <a href="./downloads.html">Downloads</a>
+      <a href="./wiki/wiki.html">Wiki</a>
+      <a href="./releases.html">Releases</a>
+      <a href="./bugs-fixes.html">Bugs & Fixes</a>
+      <a href="./FAQ.html">FAQ</a>
+      <a href="https://github.com/zubbledew6/genix" target="_blank" rel="noopener">Source Code</a>
+      <a href="./about.html">About</a>
+            <a href="./news-page.html">News</a>
+    </div>
+  </nav>
+
+    <div class="hero-banner" aria-label="Genix promotional banner">
+    <img src="assets/images/genixsiteback.png" alt="Genix banner" class="hero-image">
+  </div>
 
   <main class="content-page">
     <nav class="breadcrumb" aria-label="Breadcrumb">
@@ -48,7 +57,7 @@
       <form id="gate-form" class="submit-form" autocomplete="off">
         <label for="access-code">Access code</label>
         <input id="access-code" name="code" type="password" required autocomplete="off">
-        <button type="submit">Continue</button>
+        <button class="secondary-button" type="submit">Continue</button>
         <div id="gate-error" class="form-error" role="alert"></div>
       </form>
     </section>
@@ -81,8 +90,8 @@
         <textarea id="n-body" name="body" rows="8" maxlength="8000" required></textarea>
 
         <div class="submit-actions">
-          <button type="submit">Publish</button>
-          <button type="button" id="signout">Sign out</button>
+          <button class="secondary-button" type="submit">Publish</button>
+          <button class="secondary-button" type="button" id="signout">Sign out</button>
         </div>
         <div id="form-status" class="form-status" role="status" aria-live="polite"></div>
       </form>
