@@ -55,7 +55,6 @@
       <p>Submitting news is restricted. Enter your access code to continue.</p>
 
       <form id="gate-form" class="submit-form" autocomplete="off">
-        <label for="access-code">Access code</label>
         <input id="access-code" name="code" type="password" required autocomplete="off">
         <button class="secondary-button" type="submit">Continue</button>
         <div id="gate-error" class="form-error" role="alert"></div>
@@ -67,13 +66,13 @@
       <p>This posts to the public news page and notifies the team.</p>
 
       <form id="news-form" class="submit-form">
-        <label for="n-title">Title</label>
+        <label for="n-title">Title </label>
         <input id="n-title" name="title" type="text" maxlength="140" required>
 
-        <label for="n-author">Author</label>
+        <label for="n-author">Author </label>
         <input id="n-author" name="author" type="text" maxlength="60" required>
 
-        <label for="n-category">Category</label>
+        <label for="n-category">Category </label>
         <select id="n-category" name="category">
           <option value="">— none —</option>
           <option value="Update">Update</option>
