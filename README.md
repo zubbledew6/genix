@@ -112,4 +112,4 @@ genix-install
 - [fastfetch](docs/FASTFETCH.md)
 - [roadmap](docs/ROADMAP.md)
 
-GPLv3 — [LICENSE](LICENSE)
+AGPLv3 — [LICENSE](LICENSE)
