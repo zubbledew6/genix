@@ -159,6 +159,10 @@ body {
   padding: 22px 24px;
 }
 
+.panel + .panel {
+  margin-top: 20px;
+}
+
 .panel-header {
   margin-bottom: 12px;
 }
@@ -666,4 +670,68 @@ footer {
   font-weight: 700;
   padding: 10px 16px;
   border-radius: 8px;
+}
+
+.commit-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.commit-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.commit-item:last-child {
+  border-bottom: none;
+}
+
+.commit-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.commit-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.commit-message {
+  color: #d7dfe8;
+  text-decoration: none;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.commit-message:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+.commit-meta {
+  display: flex;
+  gap: 10px;
+  font-size: 0.8rem;
+  color: #9fb2c6;
+}
+
+.commit-sha {
+  color: #6bbcf2;
+  font-family: 'Fira Code', Consolas, Monaco, monospace;
+}
+
+.commit-status {
+  color: #9fb2c6;
+  font-size: 0.95rem;
+  padding: 8px 0;
 }
